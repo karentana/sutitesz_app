@@ -1,0 +1,43 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>SUTITESZ - Sistema de Gestión Sindicato</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+
+    <header style="display: flex; align-items: center; justify-content: center; gap: 20px;">
+        <!-- Logo del Sindicato / ITESZ -->
+        <img src="{{ url_for('static', filename='logo_itesz.png') }}" alt="Logo ITESZ" style="height: 70px; width: auto;">
+        
+        <div>
+            <h1 style="margin: 0; font-size: 24px;">SUTITESZ</h1>
+            <p style="margin: 5px 0 0 0; font-size: 14px;">Sindicato Único de Trabajadores del ITESZ</p>
+        </div>
+    </header>
+
+    <nav>
+        <a href="{{ url_for('index') }}">Noticias</a>
+        <a href="{{ url_for('usuarios') }}">Gestión de Usuarios</a>
+        <a href="{{ url_for('documentos') }}">Carga de Documentos</a>
+        <a href="{{ url_for('eventos') }}">Eventos</a>
+        <a href="{{ url_for('descargar_formatos') }}">Formatos</a>
+        <a href="{{ url_for('calculadora_escalafon') }}">Calculadora de Escalafón</a>
+    </nav>
+
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,92 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f6f4; /* Fondo general ligeramente verdoso/gris suave */
+}
+
+header {
+    background-color: #556B2F; /* Verde Olivo Principal */
+    color: white;
+    padding: 15px 20px;
+    text-align: center;
+}
+
+nav {
+    background-color: #3b4a20; /* Verde Olivo Oscuro para el menú */
+    display: flex;
+    justify-content: center;
+}
+
+nav a {
+    color: white;
+    padding: 14px 20px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav a:hover {
+    background-color: #6b8e23; /* Verde Olivo Claro al pasar el cursor */
+}
+
+.container {
+    max-width: 900px;
+    margin: 20px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.alert {
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+}
+.alert-success { background-color: #d4edda; color: #155724; }
+.alert-warning { background-color: #fff3cd; color: #856404; }
+.alert-danger { background-color: #f8d7da; color: #721c24; }
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #556B2F; /* Encabezados de tabla en verde olivo */
+    color: white;
+}
+
+.btn {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.btn-primary { 
+    background-color: #556B2F; /* Botones principales en verde olivo */
+    color: white; 
+}
+.btn-primary:hover {
+    background-color: #3b4a20;
+}
+.btn-danger { 
+    background-color: #d9534f; 
+    color: white; 
+}
+
+form input, form select {
+    margin: 5px 0 10px 0;
+    padding: 8px;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}

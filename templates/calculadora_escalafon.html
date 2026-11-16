@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="max-width: 600px; margin: 30px auto; padding: 20px; background: #f9f9f9; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+    <h2>Calculadora de Escalafón - SUTITESZ</h2>
+
+    <form action="{{ url_for('calculadora_escalafon') }}" method="POST" style="display: flex; flex-direction: column; gap: 15px;">
+        
+        <div style="margin-bottom: 10px;">
+            <label for="antiguedad_base" style="display: block; font-weight: bold; margin-bottom: 5px;">Antigüedad Base (Años):</label>
+            <input type="number" step="any" id="antiguedad_base" name="antiguedad_base" value="{{ resultado.base_anos if resultado else '' }}" required style="width: 100%; padding: 8px; box-sizing: border-box;">
+        </div>
+
+        <div style="margin-bottom: 15px;">
+            <label for="antiguedad_sindical" style="display: block; font-weight: bold; margin-bottom: 5px;">Antigüedad Sindical (Años):</label>
+            <input type="number" step="any" id="antiguedad_sindical" name="antiguedad_sindical" value="{{ resultado.sindical_anos if resultado else '' }}" required style="width: 100%; padding: 8px; box-sizing: border-box;">
+        </div>
+
+        <button type="submit" style="background-color: #4CAF50; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; font-size: 16px;">
+            Calcular Escalafón
+        </button>
+    </form>
+
+    {% if resultado %}
+    <div style="margin-top: 25px; padding: 20px; background: #e8f5e9; border: 1px solid #c8e6c9; border-radius: 6px;">
+        <h3 style="margin-top: 0; color: #2e7d32;">Resultados del Cálculo:</h3>
+        
+        <div style="margin-bottom: 12px;">
+            <label style="display: block; font-weight: bold; font-size: 14px; color: #333;">Puntaje por antigüedad base:</label>
+            <input type="text" readonly value="{{ resultado.puntos_base }} puntos" style="width: 100%; padding: 8px; background: #fff; border: 1px solid #ccc; border-radius: 4px; font-weight: bold; color: #2e7d32; box-sizing: border-box;">
+        </div>
+
+        <div style="margin-bottom: 12px;">
+            <label style="display: block; font-weight: bold; font-size: 14px; color: #333;">Puntaje por antigüedad sindical:</label>
+            <input type="text" readonly value="{{ resultado.puntos_sindical }} puntos" style="width: 100%; padding: 8px; background: #fff; border: 1px solid #ccc; border-radius: 4px; font-weight: bold; color: #2e7d32; box-sizing: border-box;">
+        </div>
+
+        <div style="margin-top: 15px; padding-top: 10px; border-top: 1px dashed #a5d6a7;">
+            <label style="display: block; font-weight: bold; font-size: 15px; color: #1b5e20;">Puntaje Total de Antigüedad:</label>
+            <input type="text" readonly value="{{ resultado.total_puntos }} puntos en total" style="width: 100%; padding: 10px; background: #c8e6c9; border: 1px solid #81c784; border-radius: 4px; font-weight: bold; font-size: 16px; color: #1b5e20; box-sizing: border-box;">
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

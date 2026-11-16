@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="max-width: 800px; margin: 30px auto; padding: 20px; background: #f9f9f9; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+    <h2>Mis Documentos Personales - SUTITESZ</h2>
+    
+    <p>Sesión activa para la clave: <strong>{{ clave_actual }}</strong></p>
+
+    <!-- FORMULARIO DE CARGA DE DOCUMENTOS -->
+    <div style="background: #eef2f7; padding: 20px; border-radius: 6px; margin-bottom: 25px; border: 1px solid #d0d7de;">
+        <h3 style="margin-top: 0; color: #0366d6;">Cargar Nuevo Documento</h3>
+        
+        <form action="{{ url_for('documentos') }}" method="POST" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 12px;">
+            <div>
+                <label for="archivo_subido" style="display: block; margin-bottom: 5px; font-weight: bold;">Selecciona tu archivo (PDF, Imagen, etc.):</label>
+                <input type="file" name="archivo_subido" id="archivo_subido" required style="padding: 6px; background: white; width: 100%; box-sizing: border-box;">
+            </div>
+
+            <button type="submit" style="background: #2ea44f; color: white; border: none; padding: 10px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 14px;">Subir y Vincular a mi Cuenta</button>
+        </form>
+    </div>
+
+    <!-- LISTA DE DOCUMENTOS CARGADOS POR ESTE USUARIO -->
+    <h3>Documentos Cargados en tu Perfil</h3>
+    
+    {% if documentos %}
+    <table style="width: 100%; border-collapse: collapse; margin-top: 10px; background: white; font-size: 14px;">
+        <thead>
+            <tr style="background: #eaecef; text-align: left;">
+                <th style="padding: 10px; border: 1px solid #d1d5db;">Nombre del Archivo</th>
+                <th style="padding: 10px; border: 1px solid #d1d5db;">Fecha de Subida</th>
+                <th style="padding: 10px; border: 1px solid #d1d5db; text-align: center;">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for doc in documentos %}
+            <tr>
+                <td style="padding: 10px; border: 1px solid #d1d5db;">📄 {{ doc.nombre_archivo }}</td>
+                <td style="padding: 10px; border: 1px solid #d1d5db;">{{ doc.fecha }}</td>
+                <td style="padding: 10px; border: 1px solid #d1d5db; text-align: center;">
+                    <form action="{{ url_for('eliminar_documento', doc_id=doc.id) }}" method="POST" style="margin: 0;">
+                        <button type="submit" style="background: #d73a49; color: white; border: none; padding: 5px 10px; border-radius: 3px; cursor: pointer; font-size: 12px;">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p style="color: #586069; font-style: italic; background: #fff; padding: 15px; border: 1px solid #e1e4e8; border-radius: 6px;">Aún no has cargado ningún documento en tu cuenta.</p>
+    {% endif %}
+</div>
+{% endblock %}

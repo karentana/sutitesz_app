@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SUTITESZ Mobile</title>
+<style>
+  * {
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  body {
+    margin: 0;
+    padding: 20px;
+    background: #0f172a;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  /* Contenedor Mockup Teléfono */
+  .phone-frame {
+    width: 360px;
+    height: 720px;
+    background: #ffffff;
+    border-radius: 40px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 0 12px #1e293b;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  /* Barra Superior */
+  .status-bar {
+    height: 40px;
+    background: #0f172a;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 24px;
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .camera-notch {
+    width: 100px;
+    height: 18px;
+    background: #1e293b;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    margin: 0 auto;
+  }
+  /* Fondo Decorativo Superior */
+  .header-bg {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+    padding: 30px 24px 45px 24px;
+    text-align: center;
+    color: white;
+    border-bottom-left-radius: 32px;
+    border-bottom-right-radius: 32px;
+  }
+  .app-logo-container {
+    width: 80px;
+    height: 80px;
+    background: #ffffff;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 12px auto;
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3);
+    overflow: hidden;
+    padding: 6px;
+  }
+  .app-logo-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  .app-title {
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+    margin: 0;
+  }
+  .app-subtitle {
+    font-size: 12px;
+    color: #93c5fd;
+    margin-top: 4px;
+    font-weight: 400;
+  }
+  /* Tarjeta de Formulario */
+  .login-card {
+    flex: 1;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .form-group {
+    margin-bottom: 16px;
+  }
+  .form-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 6px;
+  }
+  .input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  .input-field {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 12px;
+    font-size: 14px;
+    color: #0f172a;
+    background: #f8fafc;
+    outline: none;
+    transition: all 0.2s ease;
+  }
+  .input-field:focus {
+    border-color: #2563eb;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  }
+  .btn-submit {
+    width: 100%;
+    padding: 14px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3);
+    transition: transform 0.1s ease, background-color 0.2s ease;
+  }
+  .btn-submit:active {
+    transform: scale(0.98);
+    background: #1d4ed8;
+  }
+  /* Footer Informativo */
+  .footer-text {
+    text-align: center;
+    font-size: 11px;
+    color: #94a3b8;
+    margin-top: auto;
+  }
+  .footer-text strong {
+    color: #64748b;
+  }
+</style>
+</head>
+<body>
+
+<div class="phone-frame">
+  <!-- Barra de estado del móvil -->
+  <div class="status-bar">
+    <span>9:41</span>
+    <div class="camera-notch"></div>
+    <span>100%</span>
+  </div>
+
+  <!-- Encabezado con imagen de logo y título -->
+  <div class="header-bg">
+    <div class="app-logo-container">
+      <img src="{{ url_for('static', filename='logo_itesz.png') }}" alt="Logo ITESZ">
+    </div>
+    <h1 class="app-title">SUTITESZ</h1>
+    <p class="app-subtitle">Sindicato Único de Trabajadores del ITESZ</p>
+  </div>
+
+  <!-- Formulario de Login -->
+  <div class="login-card">
+    <form onsubmit="event.preventDefault();">
+      <div class="form-group">
+        <label class="form-label" for="clave">Clave de Acceso</label>
+        <div class="input-wrapper">
+          <input type="text" id="clave" class="input-field" placeholder="Ej. T101 o S001" autocomplete="off" required>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="password">Contraseña</label>
+        <div class="input-wrapper">
+          <input type="password" id="password" class="input-field" placeholder="••••••••" required>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit">Ingresar a la App</button>
+    </form>
+
+    <div class="footer-text">
+      <p>App de Consultas & Avisos Rápidos</p>
+      <p><strong>SUTITESZ Web & Mobile System</strong></p>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

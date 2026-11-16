@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="max-width: 850px; margin: 30px auto; padding: 20px; background: #f9f9f9; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+    <h2>Gestión de Usuarios - SUTITESZ</h2>
+    
+    <!-- ESTADO DE SESIÓN Y BOTÓN DE CERRAR SESIÓN -->
+    <div style="display: flex; justify-content: space-between; align-items: center; background: #fff; padding: 12px 15px; border-radius: 6px; border: 1px solid #ddd; margin-bottom: 20px;">
+        <p style="margin: 0;"><strong>Usuario actual:</strong> {{ usuario_actual }}</p>
+        
+        {% if usuario_actual != 'No identificado' %}
+        <form action="{{ url_for('cerrar_sesion') }}" method="POST" style="margin: 0;">
+            <button type="submit" style="background: #e53935; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold;">Cerrar Sesión</button>
+        </form>
+        {% endif %}
+    </div>
+
+    <!-- CAJA PARA INGRESAR LA CLAVE (SOLO SI NO HAY SESIÓN) -->
+    {% if usuario_actual == 'No identificado' %}
+    <div style="background: #eef2f7; padding: 15px; border-radius: 6px; margin-bottom: 20px;">
+        <form action="{{ url_for('usuarios') }}" method="POST" style="display: flex; gap: 10px; align-items: center;">
+            <label for="clave" style="font-weight: bold;">Ingresa tu clave (T... o S...):</label>
+            <input type="password" name="clave" id="clave" placeholder="Ej. T101 o S001" required style="padding: 6px; flex: 1;">
+            <button type="submit" style="background: #2196F3; color: white; border: none; padding: 7px 15px; border-radius: 4px; cursor: pointer;">Identificarse</button>
+        </form>
+    </div>
+    {% endif %}
+
+    <!-- PANEL DE ADMINISTRADOR -->
+    {% if es_admin %}
+    
+    <!-- 1. FORMULARIO DE REGISTRO -->
+    <div style="background: #e8f5e9; padding: 20px; border-radius: 6px; margin-bottom: 25px; border: 1px solid #c8e6c9;">
+        <h3 style="margin-top: 0; color: #2e7d32;">Registrar Nuevo Usuario</h3>
+        
+        <form action="{{ url_for('agregar_usuario') }}" method="POST" style="display: flex; flex-direction: column; gap: 12px;">
+            <div style="display: flex; gap: 10px;">
+                <input type="text" name="clave_acceso" placeholder="Clave (Empieza con T o S, ej: S003)" required style="flex: 1; padding: 8px; box-sizing: border-box;">
+                <input type="text" name="nombre_completo" placeholder="Nombre completo" required style="flex: 2; padding: 8px; box-sizing: border-box;">
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+                <select name="area_adscripcion" required style="flex: 1; padding: 8px; box-sizing: border-box; background: white;">
+                    <option value="" disabled selected>Selecciona área de adscripción</option>
+                    <option value="Docente">Docente</option>
+                    <option value="Administrativo">Administrativo</option>
+                </select>
+                <input type="email" name="correo_electronico" placeholder="Correo electrónico" required style="flex: 1; padding: 8px; box-sizing: border-box;">
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+                <input type="text" name="telefono" placeholder="Teléfono" required style="flex: 1; padding: 8px; box-sizing: border-box;">
+                <input type="text" name="area_trabajo" placeholder="Área de trabajo" required style="flex: 1; padding: 8px; box-sizing: border-box;">
+            </div>
+
+            <button type="submit" style="background: #4CAF50; color: white; border: none; padding: 10px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 15px;">Guardar Usuario</button>
+        </form>
+    </div>
+
+    <!-- 2. BUSCADOR DE USUARIOS -->
+    <div style="background: #e3f2fd; padding: 20px; border-radius: 6px; margin-bottom: 25px; border: 1px solid #bbdefb;">
+        <h3 style="margin-top: 0; color: #1565c0;">Buscar, Modificar o Administrar Usuario</h3>
+        
+        <form action="{{ url_for('buscar_usuario') }}" method="POST" style="display: flex; gap: 10px; align-items: center;">
+            <input type="text" name="criterio_busqueda" placeholder="Buscar por Clave (ej. S001) o Nombre" required style="padding: 8px; flex: 1; box-sizing: border-box;">
+            <button type="submit" style="background: #1976D2; color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: bold;">Buscar</button>
+        </form>
+
+        <!-- RESULTADO DE LA BÚSQUEDA -->
+        {% if resultado_busqueda %}
+        <div style="margin-top: 20px; background: white; padding: 15px; border-radius: 6px; border: 1px solid #90caf9;">
+            <h4 style="margin-top: 0; color: #0d47a1;">Resultado de la Búsqueda: 
+                <span style="color: {% if resultado_busqueda.activo %}#2e7d32{% else %}#c62828{% endif %};">
+                    ({% if resultado_busqueda.activo %}Activo / Permitido{% else %}Acceso Restringido{% endif %})
+                </span>
+            </h4>
+
+            <!-- Formulario para Modificar datos -->
+            <form action="{{ url_for('actualizar_usuario', clave_usuario=resultado_busqueda.clave) }}" method="POST" style="display: flex; flex-direction: column; gap: 10px;">
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" value="{{ resultado_busqueda.clave }}" disabled style="flex: 1; padding: 8px; background: #eee; font-weight: bold;">
+                    <input type="text" name="nombre_completo" value="{{ resultado_busqueda.nombre_completo }}" required style="flex: 2; padding: 8px;">
+                </div>
+
+                <div style="display: flex; gap: 10px;">
+                    <select name="area_adscripcion" required style="flex: 1; padding: 8px; background: white;">
+                        <option value="Docente" {% if resultado_busqueda.area_adscripcion == 'Docente' %}selected{% endif %}>Docente</option>
+                        <option value="Administrativo" {% if resultado_busqueda.area_adscripcion == 'Administrativo' %}selected{% endif %}>Administrativo</option>
+                    </select>
+                    <input type="email" name="correo_electronico" value="{{ resultado_busqueda.correo }}" required style="flex: 1; padding: 8px;">
+                </div>
+
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" name="telefono" value="{{ resultado_busqueda.telefono }}" required style="flex: 1; padding: 8px;">
+                    <input type="text" name="area_trabajo" value="{{ resultado_busqueda.area_trabajo }}" required style="flex: 1; padding: 8px;">
+                </div>
+
+                <!-- Botones de Acción (Modificar, Restringir, Eliminar) -->
+                <div style="display: flex; gap: 10px; margin-top: 5px;">
+                    <button type="submit" style="background: #ff9800; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; flex: 1;">Guardar Cambios</button>
+            </form>
+
+                    <!-- Botón para Restringir / Habilitar Acceso -->
+                    <form action="{{ url_for('restringir_usuario', clave_usuario=resultado_busqueda.clave) }}" method="POST" style="margin: 0;">
+                        <button type="submit" style="background: {% if resultado_busqueda.activo %}#607d8b{% else %}#4caf50{% endif %}; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-weight: bold;">
+                            {% if resultado_busqueda.activo %}Restringir Acceso{% else %}Habilitar Acceso{% endif %}
+                        </button>
+                    </form>
+
+                    <!-- Botón para Eliminar Usuario -->
+                    <form action="{{ url_for('eliminar_usuario', clave_usuario=resultado_busqueda.clave) }}" method="POST" style="margin: 0;" onsubmit="return confirm('¿Estás seguro de eliminar este usuario?');">
+                        <button type="submit" style="background: #f44336; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer; font-weight: bold;">Eliminar</button>
+                    </form>
+                </div>
+        </div>
+        {% endif %}
+    </div>
+
+    {% endif %}
+</div>
+{% endblock %}

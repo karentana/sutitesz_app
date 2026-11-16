@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Noticias y Comunicados SUTITESZ</h2>
+
+{% for noticia in noticias %}
+    <div style="border-bottom: 1px solid #ddd; padding: 15px 0; display: flex; gap: 20px; align-items: flex-start;">
+        
+        <!-- Si la noticia tiene una imagen asignada, la mostramos -->
+        {% if noticia.imagen %}
+            <img src="{{ url_for('static', filename=noticia.imagen) }}" alt="Imagen de noticia" style="width: 180px; height: 120px; object-fit: cover; border-radius: 6px; border: 1px solid #ccc;">
+        {% endif %}
+        
+        <!-- Contenido de la noticia -->
+        <div style="flex: 1;">
+            <h3 style="margin-top: 0; color: #556B2F;">{{ noticia.titulo }}</h3>
+            <small><em>Publicado el: {{ noticia.fecha }}</em></small>
+            <p>{{ noticia.contenido }}</p>
+        </div>
+        
+    </div>
+{% else %}
+    <p>No hay noticias publicadas por el momento.</p>
+{% endfor %}
+
+{% endblock %}

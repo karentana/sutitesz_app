@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Próximos Eventos del SUTITESZ</h2>
+
+{% for evento in eventos %}
+    <div style="border: 1px solid #ddd; padding: 15px; margin-bottom: 15px; border-radius: 6px; background: #fafafa;">
+        <h3 style="margin-top: 0; color: #003366;">{{ evento.titulo }}</h3>
+        <p><strong>Fecha:</strong> {{ evento.fecha }} | <strong>Lugar:</strong> {{ evento.lugar }}</p>
+        <p>{{ evento.descripcion }}</p>
+    </div>
+{% else %}
+    <p>No hay eventos programados por el momento.</p>
+{% endfor %}
+
+{% endblock %}

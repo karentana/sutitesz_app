@@ -23,3 +23,5 @@ El proyecto cuenta con contenedorización completa para garantizar portabilidad 
 1. Configurar variables de entorno tomando como base `.env.example`:
    ```bash
    cp .env.example .env
+
+   - **Integración Continua (CI/CD):** Validación automática ejecutada con GitHub Actions (`pytest` y `flake8`) en cada integración hacia `main`.
